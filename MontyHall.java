@@ -83,9 +83,9 @@ public class MontyHall {
                 decision = decision.toLowerCase();                     //changes the response to lower case, to prevent
                 //                                                                                             glitches
 
-                                                                //Determines if user decided to keep or change door
-                nextChoiceValid();
-                                                                    //Makes comparisons to get the results of the users
+                //Determines if user decided to keep or change door
+                nextChoice(decision);
+                //Makes comparisons to get the results of the users
                 //                                                                                              choices
 
             } else      //prints for some possible break in code
@@ -101,20 +101,7 @@ public class MontyHall {
 
 
     }
-    private void nextChoiceValid(){
-        try{Thread.sleep(1000);}
-        catch(InterruptedException e){}
-        if(nextChoice(decision) == 0)
-            results();
-        else {
-            System.out.println("\nEnter your decision: ");
-            Scanner retrySecondChoice = new Scanner(System.in);
-            decision = retrySecondChoice.nextLine();
-            decision = decision.toLowerCase();
-            nextChoice(decision);
-            nextChoiceValid();
-        }
-    }
+
     private void montyChoice() {    //sets montyDoor variable to a remaining garbage door
 
         while (montyDoor == goodDoor || montyDoor == choice || montyDoor == 0) { //Keep choosing a door until it is
@@ -123,7 +110,7 @@ public class MontyHall {
 
     }
 
-    private int nextChoice(String phrase) {     //prints out dialog corresponding to user's choice
+    private void nextChoice(String phrase) {     //prints out dialog corresponding to user's choice
         String keep = "keep";
         String change = "change";
 
@@ -143,7 +130,8 @@ public class MontyHall {
             catch(InterruptedException e){}
             System.out.println(".");
             newDoor = choice;
-            return 0;
+            results();
+
         }
         else if (phrase.contains(change)) {
             newDoor = random.nextInt(NUM_DOORS);
@@ -163,11 +151,17 @@ public class MontyHall {
             try{Thread.sleep(1000);}
             catch(InterruptedException e){}
             System.out.println(".");
-            return 0;
+            results();
+
         }
         else{
             System.out.println("Sorry, it seems you didn't tell us to change or keep your door.\nTry again!");
-            return -1;
+            System.out.println("\nEnter your decision: ");
+            Scanner retrySecondChoice = new Scanner(System.in);
+            decision = retrySecondChoice.nextLine();
+            decision = decision.toLowerCase();
+            nextChoice(decision);
+
         }
 
     }
@@ -180,7 +174,7 @@ public class MontyHall {
     public String results() {
 
         if (newDoor != goodDoor) {
-            //System.out.println("Show us what's behind door number " + newDoor + "!");
+           
 
             System.out.println("Oh no! It's garbage!");
             try{Thread.sleep(1700);}
